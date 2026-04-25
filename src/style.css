@@ -33,21 +33,21 @@
   .mapboxgl-ctrl-bottom-right .mapboxgl-ctrl-attrib { transform-origin: bottom right; }
 }
 
-/* Desktop: tucked under the timeline, centered side by side */
+/* Desktop: logo + (i) on a single baseline, centered under the timeline */
 @media (min-width: 768px) {
-  .mapboxgl-ctrl-bottom-left {
-    bottom: 2px !important;
-    left: 50% !important;
-    margin-left: -78px;
-  }
+  .mapboxgl-ctrl-bottom-left,
   .mapboxgl-ctrl-bottom-right {
-    bottom: 2px !important;
+    bottom: 4px !important;
+    margin: 0 !important;
+    padding: 0 !important;
     right: auto !important;
-    left: 50% !important;
-    margin-left: 18px;
   }
-  .mapboxgl-ctrl-bottom-left  .mapboxgl-ctrl-logo   { transform-origin: bottom left; }
-  .mapboxgl-ctrl-bottom-right .mapboxgl-ctrl-attrib { transform-origin: bottom left; }
+  .mapboxgl-ctrl-bottom-left  { left: 50% !important; transform: translateX(calc(-100% - 6px)); }
+  .mapboxgl-ctrl-bottom-right { left: 50% !important; transform: translateX(6px); }
+  .mapboxgl-ctrl-bottom-left  .mapboxgl-ctrl,
+  .mapboxgl-ctrl-bottom-right .mapboxgl-ctrl { margin: 0 !important; }
+  .mapboxgl-ctrl-bottom-left  .mapboxgl-ctrl-logo,
+  .mapboxgl-ctrl-bottom-right .mapboxgl-ctrl-attrib { transform-origin: bottom center; }
 }
 
 @layer components {
