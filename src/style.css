@@ -18,20 +18,37 @@
   }
 }
 
-/* Mapbox attribution: kept compliant but minimal & lifted above the timeline */
-.mapboxgl-ctrl-bottom-left,
-.mapboxgl-ctrl-bottom-right { bottom: 88px !important; }
-@media (max-width: 768px) {
-  .mapboxgl-ctrl-bottom-left,
-  .mapboxgl-ctrl-bottom-right { bottom: 64px !important; }
-}
+/* Mapbox attribution: compliant but minimal */
 .mapboxgl-ctrl-logo,
 .mapboxgl-ctrl-attrib {
-  transform: scale(0.78);
-  opacity: 0.7;
+  transform: scale(0.7);
+  opacity: 0.65;
 }
-.mapboxgl-ctrl-bottom-left .mapboxgl-ctrl-logo  { transform-origin: bottom left; }
-.mapboxgl-ctrl-bottom-right .mapboxgl-ctrl-attrib { transform-origin: bottom right; }
+
+/* Mobile: lifted above the timeline */
+@media (max-width: 767px) {
+  .mapboxgl-ctrl-bottom-left,
+  .mapboxgl-ctrl-bottom-right { bottom: 64px !important; }
+  .mapboxgl-ctrl-bottom-left  .mapboxgl-ctrl-logo   { transform-origin: bottom left; }
+  .mapboxgl-ctrl-bottom-right .mapboxgl-ctrl-attrib { transform-origin: bottom right; }
+}
+
+/* Desktop: tucked under the timeline, centered side by side */
+@media (min-width: 768px) {
+  .mapboxgl-ctrl-bottom-left {
+    bottom: 2px !important;
+    left: 50% !important;
+    margin-left: -78px;
+  }
+  .mapboxgl-ctrl-bottom-right {
+    bottom: 2px !important;
+    right: auto !important;
+    left: 50% !important;
+    margin-left: 18px;
+  }
+  .mapboxgl-ctrl-bottom-left  .mapboxgl-ctrl-logo   { transform-origin: bottom left; }
+  .mapboxgl-ctrl-bottom-right .mapboxgl-ctrl-attrib { transform-origin: bottom left; }
+}
 
 @layer components {
   /* ── Tabs ─────────────────────────────────────── */

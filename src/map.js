@@ -150,8 +150,9 @@ export function initMap(containerId) {
     container: containerId, style: MAP_CONFIG.style,
     center: MAP_CONFIG.center, zoom: MAP_CONFIG.zoom,
     minZoom: MAP_CONFIG.minZoom, maxZoom: MAP_CONFIG.maxZoom,
-    projection: MAP_CONFIG.projection, attributionControl: { compact: true },
+    projection: MAP_CONFIG.projection, attributionControl: false,
   })
+  map.addControl(new mapboxgl.AttributionControl({ compact: true }))
   map.on('load', () => {
     try { _styleMap()  } catch(_){}
     try { _addLayers() } catch(e){ console.error('[map]', e) }
