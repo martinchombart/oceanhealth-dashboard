@@ -33,21 +33,23 @@
   .mapboxgl-ctrl-bottom-right .mapboxgl-ctrl-attrib { transform-origin: bottom right; }
 }
 
-/* Desktop: logo + (i) on a single baseline, centered under the timeline */
+/* Desktop: logo + (i) anchored bottom-right, on the same baseline */
 @media (min-width: 768px) {
   .mapboxgl-ctrl-bottom-left,
   .mapboxgl-ctrl-bottom-right {
-    bottom: 4px !important;
+    bottom: 6px !important;
+    left: auto !important;
     margin: 0 !important;
     padding: 0 !important;
-    right: auto !important;
   }
-  .mapboxgl-ctrl-bottom-left  { left: 50% !important; transform: translateX(calc(-100% - 6px)); }
-  .mapboxgl-ctrl-bottom-right { left: 50% !important; transform: translateX(6px); }
+  .mapboxgl-ctrl-bottom-left  { right: 36px !important; }
+  .mapboxgl-ctrl-bottom-right { right: 6px  !important; }
   .mapboxgl-ctrl-bottom-left  .mapboxgl-ctrl,
-  .mapboxgl-ctrl-bottom-right .mapboxgl-ctrl { margin: 0 !important; }
+  .mapboxgl-ctrl-bottom-right .mapboxgl-ctrl { margin: 0 !important; padding: 0 !important; }
+  /* Mapbox wordmark ships with margin: 0 0 -4px -4px which drags it below the (i) */
+  .mapboxgl-ctrl-logo { margin: 0 !important; }
   .mapboxgl-ctrl-bottom-left  .mapboxgl-ctrl-logo,
-  .mapboxgl-ctrl-bottom-right .mapboxgl-ctrl-attrib { transform-origin: bottom center; }
+  .mapboxgl-ctrl-bottom-right .mapboxgl-ctrl-attrib { transform-origin: bottom right; }
 }
 
 @layer components {
