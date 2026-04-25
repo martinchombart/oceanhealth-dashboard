@@ -43,7 +43,7 @@
     padding: 0 !important;
   }
   .mapboxgl-ctrl-bottom-left  { right: 36px !important; }
-  .mapboxgl-ctrl-bottom-right { right: 6px  !important; }
+  .mapboxgl-ctrl-bottom-right { right: 14px !important; bottom: 10px !important; }
   .mapboxgl-ctrl-bottom-left  .mapboxgl-ctrl,
   .mapboxgl-ctrl-bottom-right .mapboxgl-ctrl { margin: 0 !important; padding: 0 !important; }
   /* Mapbox wordmark ships with margin: 0 0 -4px -4px which drags it below the (i) */
