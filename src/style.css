@@ -1,0 +1,353 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  .mapboxgl-canvas-container { cursor: pointer !important; }
+  .mapboxgl-canvas-container.map-grabbing { cursor: grabbing !important; }
+  .mapboxgl-canvas { cursor: inherit !important; }
+
+  #tabs-arrow-left,
+  #tabs-arrow-right {
+    background: none !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+  }
+}
+
+.mapboxgl-ctrl-attrib,
+.mapboxgl-ctrl-logo,
+.mapboxgl-ctrl-bottom-left,
+.mapboxgl-ctrl-bottom-right { display: none !important; }
+
+@layer components {
+  /* ── Tabs ─────────────────────────────────────── */
+  .data-tab {
+    @apply flex items-center gap-1 px-3 py-1.5 rounded-xl
+           font-display font-bold text-[12px] tracking-normal
+           border border-transparent cursor-pointer
+           transition-all duration-150 whitespace-nowrap;
+    color: rgba(255,255,255,0.55);
+  }
+  .data-tab:hover { color: rgba(255,255,255,0.85); border-color: rgba(255,255,255,0.2); }
+  .data-tab[data-key="temperature"] { --tc: #f97316; }
+  .data-tab[data-key="salinity"]    { --tc: #14b8a6; }
+  .data-tab[data-key="ph"]          { --tc: #a78bfa; }
+  .data-tab[data-key="chlorophyll"] { --tc: #52be80; }
+  .data-tab[data-key="oxygen"]      { --tc: #5dade2; }
+  .data-tab[data-key="seaice"]      { --tc: #85c1e9; }
+  .data-tab[data-key="sealevel"]    { --tc: #74b9ff; }
+  .data-tab.active {
+    color: var(--tc);
+    border-color: var(--tc);
+    background: rgba(255,255,255,0.08);
+    box-shadow: 0 0 14px -5px var(--tc);
+  }
+  .tab-dot { @apply inline-block w-1.5 h-1.5 rounded-full bg-current opacity-60; }
+
+  /* ── Timeline ─────────────────────────────────── */
+  .tl-mark {
+    @apply absolute top-1/2 -translate-x-1/2 -translate-y-1/2
+           flex flex-col items-center cursor-pointer;
+  }
+  .tl-dot {
+    @apply w-2 h-2 rounded-full transition-all duration-150;
+    background: rgba(255,255,255,0.2);
+    border: 1.5px solid rgba(255,255,255,0.35);
+  }
+  .tl-mark:hover .tl-dot { background:#0ea5e9; transform:scale(2); }
+  .tl-mark.active .tl-dot {
+    background: #0ea5e9;
+    transform: scale(3);
+    box-shadow: 0 0 12px 2px rgba(14,165,233,0.8);
+  }
+  .tl-yr {
+    @apply absolute text-[12px] font-bold whitespace-nowrap pointer-events-none;
+    top: calc(50% + 14px);
+    color: rgba(255,255,255,0.45);
+    text-shadow: 0 1px 4px rgba(0,0,0,0.7);
+  }
+  .tl-mark.active .tl-yr { color: #fff; font-size: 14px; text-shadow: 0 0 8px rgba(14,165,233,0.8); }
+
+  /* ── Timeline handles ─────────────────────────── */
+  .tl-handle {
+    @apply absolute top-1/2 -translate-y-1/2 -translate-x-1/2
+           w-4 h-4 rounded-full border-2
+           cursor-grab active:cursor-grabbing z-10;
+  }
+
+  /* ── Zoom buttons ─────────────────────────────── */
+  .zoom-btn {
+    @apply w-9 h-9 flex items-center justify-center rounded-xl font-display
+           border text-lg transition-colors cursor-pointer;
+    background: transparent;
+    border-color: rgba(255,255,255,0.25);
+    color: rgba(255,255,255,0.55);
+    text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+  }
+  .zoom-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+
+  /* ── Info panel cards ─────────────────────────── */
+  .info-card {
+    @apply border rounded-2xl p-4;
+    background: #ffffff;
+    border-color: #bae6fd;
+  }
+  .ic-title {
+    @apply font-display font-extrabold text-[12px] uppercase tracking-wide mb-2;
+    color: #0369a1;
+  }
+  .stat-row {
+    @apply flex justify-between items-baseline py-2
+           border-b text-[12px] last:border-0;
+    border-color: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.55);
+  }
+  .stat-val { @apply font-display font-bold text-[15px]; }
+  .src-tag {
+    @apply inline-block px-2 py-0.5 rounded-full text-[10px] mr-1 mb-1;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.6);
+  }
+
+  /* ── How to read button hover ─────────────────── */
+  #how-to-read-btn:hover {
+    background: rgba(255,255,255,0.12) !important;
+    color: #fff !important;
+    border-color: rgba(255,255,255,0.4) !important;
+  }
+
+  /* ── Info overlay toggle button active state ──── */
+  #info-overlay-open.is-active {
+    background: rgba(14,165,233,0.25) !important;
+    border-color: rgba(14,165,233,0.6) !important;
+    color: #7dd3fc !important;
+  }
+  #info-overlay-open:hover {
+    background: rgba(255,255,255,0.12) !important;
+    color: #fff !important;
+    border-color: rgba(255,255,255,0.4) !important;
+  }
+
+  /* ── Info overlay open/close animation ────────── */
+  #info-overlay {
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+  @keyframes info-btn-appear {
+    from { opacity: 0; transform: scale(0.55); }
+    70%  { transform: scale(1.15); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  #info-overlay-open.is-appearing {
+    animation: info-btn-appear 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  /* ── Pin windows ─────────────────────────────── */
+  .pin-marker {
+    position: relative;
+    width: 0; height: 0;
+    pointer-events: none;
+  }
+  .pin-dot {
+    position: absolute;
+    top: -5px; left: -5px;
+    width: 10px; height: 10px;
+    background: #fbbf24;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.85);
+    box-shadow: 0 0 8px 2px rgba(251,191,36,0.55);
+  }
+  .pin-card {
+    position: absolute;
+    top: 8px; left: 8px;
+    background: rgba(2, 16, 36, 0.93);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.11);
+    border-radius: 10px;
+    padding: 7px 10px 8px 10px;
+    min-width: 128px;
+    box-shadow: 0 6px 28px rgba(0,0,0,0.6);
+    white-space: nowrap;
+  }
+  .pin-card-label {
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 1px;
+    padding-right: 14px;
+  }
+  .pin-card-coord {
+    font-size: 9px;
+    color: rgba(255,255,255,0.32);
+    margin-bottom: 5px;
+  }
+  .pin-val {
+    font-size: 20px;
+    font-weight: 900;
+    line-height: 1;
+    font-family: var(--font-display, monospace);
+  }
+  .pin-unit {
+    font-size: 10px;
+    color: rgba(255,255,255,0.4);
+    margin-left: 2px;
+  }
+  .pin-ctx {
+    font-size: 9px;
+    color: rgba(255,255,255,0.28);
+    margin-top: 1px;
+  }
+  .pin-remove {
+    position: absolute;
+    top: 5px; right: 5px;
+    width: 15px; height: 15px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 50%;
+    color: rgba(255,255,255,0.45);
+    font-size: 10px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: auto;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .pin-remove:hover {
+    background: rgba(239,68,68,0.35);
+    color: #fff;
+    border-color: rgba(239,68,68,0.5);
+  }
+
+  /* ── Peek card (mobile temporary point) ─────── */
+  .peek-marker {
+    position: relative;
+    width: 0; height: 0;
+    pointer-events: none;
+  }
+  .peek-dot {
+    position: absolute;
+    top: -7px; left: -7px;
+    width: 14px; height: 14px;
+    background: #0ea5e9;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.9);
+    box-shadow: 0 0 10px 3px rgba(14,165,233,0.65);
+  }
+  .peek-card {
+    position: absolute;
+    top: 10px; left: 10px;
+    background: rgba(2, 16, 36, 0.93);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.13);
+    border-radius: 12px;
+    padding: 8px 12px 32px 12px;
+    min-width: 136px;
+    box-shadow: 0 6px 28px rgba(0,0,0,0.6);
+    white-space: nowrap;
+    pointer-events: auto;
+  }
+  .peek-card-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    color: #38bdf8;
+    margin-bottom: 3px;
+    padding-right: 22px;
+  }
+  .peek-card-coord {
+    font-size: 9px;
+    color: rgba(255,255,255,0.3);
+    margin-top: 5px;
+    padding-top: 5px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+  }
+  .peek-close {
+    position: absolute;
+    top: 6px; right: 6px;
+    width: 18px; height: 18px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 50%;
+    color: rgba(255,255,255,0.55);
+    font-size: 12px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: auto;
+    transition: background .15s, color .15s;
+  }
+  .peek-close:hover { background: rgba(239,68,68,0.35); color: #fff; border-color: rgba(239,68,68,0.5); }
+  .peek-pin {
+    position: absolute;
+    bottom: 7px; right: 7px;
+    width: 22px; height: 22px;
+    background: rgba(251,191,36,0.12);
+    border: 1px solid rgba(251,191,36,0.4);
+    border-radius: 6px;
+    color: #fbbf24;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: auto;
+    transition: background .15s;
+  }
+  .peek-pin:hover { background: rgba(251,191,36,0.28); }
+
+  /* ── Info overlay positioning ────────────────── */
+  .info-overlay-pos {
+    position: absolute;
+    right: 1rem; top: 32px;
+    width: 24rem;
+    max-height: calc(100% - 175px);
+  }
+
+  /* ── Mobile overrides ─────────────────────────── */
+  @media (max-width: 1023px) {
+    /* Hide left panel by default; show when toggled — positioned below the hamburger button */
+    #left-panel { display: none; top: 60px; left: 12px; min-width: 190px; }
+    #left-panel.is-open { display: flex; }
+
+    /* Info overlay: below ℹ button on mobile */
+    .info-overlay-pos {
+      position: absolute !important;
+      top: 56px !important;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+      right: auto !important;
+      bottom: auto !important;
+      width: 90vw !important;
+      max-height: calc(100% - 72px) !important;
+      border-radius: 16px !important;
+    }
+
+    /* Scrollbar hidden for tabs on mobile */
+    #data-tabs { scrollbar-width: none; }
+    #data-tabs::-webkit-scrollbar { display: none; }
+
+    /* Timeline year labels: smaller on mobile */
+    .tl-yr { font-size: 10px; }
+
+    /* Selected year label: move below the bar on mobile */
+    #tl-cursor-yr {
+      bottom: auto !important;
+      top: 14px !important;
+      font-size: 13px !important;
+    }
+  }
+
+  /* ── Season select arrow ──────────────────────── */
+  #season-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%230284c7'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    padding-right: 24px;
+  }
+}

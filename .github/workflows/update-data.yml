@@ -1,0 +1,46 @@
+name: Update ocean data (monthly)
+
+on:
+  schedule:
+    - cron: "0 6 2 * *"   # Le 2 du mois à 6h UTC (CMEMS publie le 1er)
+  workflow_dispatch:       # Déclenchement manuel possible depuis GitHub
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write      # Nécessaire pour le git push
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1   # Shallow clone pour aller vite
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install copernicusmarine xarray numpy scipy
+
+      - name: Fetch new CMEMS data
+        env:
+          COPERNICUSMARINE_SERVICE_USERNAME: ${{ secrets.CMEMS_USER }}
+          COPERNICUSMARINE_SERVICE_PASSWORD: ${{ secrets.CMEMS_PASS }}
+        run: python convert_nc.py --only-new
+
+      - name: Commit new data files
+        run: |
+          git config user.name  "ocean-bot"
+          git config user.email "bot@ocean-dashboard"
+          git add public/data/
+          if git diff --staged --quiet; then
+            echo "Aucune nouvelle donnée ce mois-ci."
+          else
+            COUNT=$(git diff --staged --name-only | wc -l)
+            git commit -m "data: +${COUNT} fichiers $(date +%Y-%m)"
+            git push
+          fi
