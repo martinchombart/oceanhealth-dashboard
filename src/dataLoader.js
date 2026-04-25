@@ -15,7 +15,7 @@ export function loadData(variable, year, season, depth = 'surface') {
 async function _load(variable, year, season, depth) {
   const { VARIABLES, DATA_BASE } = await import('./config.js')
   const meta        = VARIABLES[variable]
-  const depthSuffix = depth === 'surface' ? '' : `_${depth}m`
+  const depthSuffix = depth === 'surface' ? '' : `_${depth}`
   const base        = `${DATA_BASE}/${variable}/${meta.filePrefix}_${year}_${season}${depthSuffix}`
   // Try binary first; fall back to legacy JSON at surface during migration
   let data = await _fetchBin(base + '.bin')
