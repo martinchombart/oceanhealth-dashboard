@@ -10,6 +10,7 @@ import {
   setYearFraction,
   zoomIn, zoomOut, zoomReset,
   setProjection, setDepth,
+  toggleGlobeRotation, onRotateChange, isGlobeRotating,
   onCursor, onLoading, onGlobalDiff,
   onMapClick, onDataReady, addPinMarker, removePinMarker, getValueAtCoord,
   setPeekMarker, removePeekMarker,
@@ -268,6 +269,15 @@ function _bindZoomButtons() {
   document.getElementById('btn-zoom-in')?.addEventListener('click',    zoomIn)
   document.getElementById('btn-zoom-out')?.addEventListener('click',   zoomOut)
   document.getElementById('btn-zoom-reset')?.addEventListener('click', zoomReset)
+
+  const playBtn = document.getElementById('btn-play-rotate')
+  if (playBtn) {
+    playBtn.addEventListener('click', toggleGlobeRotation)
+    onRotateChange(active => {
+      playBtn.textContent = active ? '■' : '▶'
+      playBtn.title = active ? 'Stop rotation' : 'Play globe rotation'
+    })
+  }
 }
 
 function _bindTabsScrollArrows() {
@@ -309,6 +319,8 @@ function _bindProjectionToggle() {
   ]
   let isGlobe = true
 
+  const playBtn = document.getElementById('btn-play-rotate')
+
   const _update = () => {
     toggles.forEach(({ btn, thumb }) => {
       if (!btn) return
@@ -317,7 +329,9 @@ function _bindProjectionToggle() {
       btn.style.borderColor = isGlobe ? '#0ea5e9' : '#7dd3fc'
       if (thumb) thumb.style.transform = isGlobe ? 'translateX(20px)' : ''
     })
+    if (!isGlobe && isGlobeRotating()) toggleGlobeRotation()
     setProjection(isGlobe ? 'globe' : 'mercator')
+    if (playBtn) playBtn.style.display = isGlobe ? '' : 'none'
   }
 
   toggles.forEach(({ btn }) => {

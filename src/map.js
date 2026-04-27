@@ -508,6 +508,44 @@ export const setDepth        = d => { _depth = d; _pixelCache.clear(); loadAndRe
 export const zoomIn    = () => map?.zoomIn()
 export const zoomOut   = () => map?.zoomOut()
 export const zoomReset = () => map?.flyTo({ center: MAP_CONFIG.center, zoom: MAP_CONFIG.zoom })
+
+let _isRotating = false
+let _rotateRAF  = null
+let _onRotateChange = null
+export const onRotateChange   = fn => { _onRotateChange = fn }
+export const isGlobeRotating  = () => _isRotating
+function _stopRotation() {
+  if (_rotateRAF) { cancelAnimationFrame(_rotateRAF); _rotateRAF = null }
+  if (_isRotating) {
+    _isRotating = false
+    _onRotateChange?.(false)
+    map?.off('mousedown', _stopRotation)
+    map?.off('touchstart', _stopRotation)
+    map?.off('wheel', _stopRotation)
+  }
+}
+export function toggleGlobeRotation() {
+  if (!map) return false
+  if (_isRotating) { _stopRotation(); return false }
+  _isRotating = true
+  _onRotateChange?.(true)
+  map.on('mousedown',  _stopRotation)
+  map.on('touchstart', _stopRotation)
+  map.on('wheel',      _stopRotation)
+  const startLng  = map.getCenter().lng
+  const startLat  = map.getCenter().lat
+  const startTime = performance.now()
+  const DURATION  = 30000
+  const step = now => {
+    if (!_isRotating) return
+    const t = Math.min((now - startTime) / DURATION, 1)
+    map.jumpTo({ center: [startLng + 360 * t, startLat] })
+    if (t < 1) _rotateRAF = requestAnimationFrame(step)
+    else       _stopRotation()
+  }
+  _rotateRAF = requestAnimationFrame(step)
+  return true
+}
 export const setProjection = proj => {
   if (!map) return
   map.setProjection(proj)
