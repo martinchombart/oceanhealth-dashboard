@@ -342,6 +342,21 @@ function _bindProjectionToggle() {
 // ─────────────────────────────────────────
 // GLOBAL DIFF INDICATOR
 // ─────────────────────────────────────────
+const DIFF_TEXT_COLORS = {
+  // { positive change → color, negative change → color }
+  salinity:    { pos: '#4ade80', neg: '#60a5fa' },   // saltier=green / fresher=blue
+  ph:          { pos: '#60a5fa', neg: '#f87171' },   // less acidic=blue / more acidic=red
+  chlorophyll: { pos: '#60a5fa', neg: '#f87171' },   // more chl=blue / less chl=red
+  oxygen:      { pos: '#60a5fa', neg: '#f87171' },   // more O2=blue / less O2=red
+  seaice:      { pos: '#60a5fa', neg: '#f87171' },   // ice gain=blue / ice loss=red
+  // default (temperature, sealevel): warming=red / cooling=blue
+}
+function _diffTextColor(variable, mean, threshold) {
+  if (Math.abs(mean) <= threshold) return '#f5f5f5'
+  const r = DIFF_TEXT_COLORS[variable] || { pos: '#f87171', neg: '#60a5fa' }
+  return mean > 0 ? r.pos : r.neg
+}
+
 function _updateGlobalDiff(mean) {
   const el       = document.getElementById('global-diff-indicator')
   const valEl    = document.getElementById('gdiff-value')
@@ -361,9 +376,7 @@ function _updateGlobalDiff(mean) {
   const decimals  = app.variable === 'ph' ? 3 : 2
   const text      = sign + mean.toFixed(decimals) + ' ' + unit
   const threshold = app.variable === 'ph' ? 0.005 : 0.02
-  const color     = mean > threshold  ? '#f87171'
-                  : mean < -threshold ? '#60a5fa'
-                  : '#f5f5f5'
+  const color     = _diffTextColor(app.variable, mean, threshold)
 
   const { yearA, yearB } = getCompareYears()
   const seasonLabels = { year: 'Full Year', spring: 'Spring', summer: 'Summer', fall: 'Fall', winter: 'Winter' }
