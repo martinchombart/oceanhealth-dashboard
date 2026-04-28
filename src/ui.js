@@ -290,30 +290,20 @@ export function renderPanel(variable) {
       ${s.label}: <strong style="color:${meta.accent}">${s.value}</strong>
     </p>`).join('')
 
+  const importanceHtml = meta.importance
+    .split(/\n\s*\n/)
+    .map(p => `<p class="text-[13px] leading-relaxed mb-3" style="color:rgba(255,255,255,0.7)">${p.trim()}</p>`)
+    .join('')
+
   content.innerHTML = `
-    <p class="text-[13px] leading-relaxed mb-3" style="color:rgba(255,255,255,0.7)">${meta.importance}</p>
+    ${importanceHtml}
 
     <div class="mb-3 py-1" style="border-top:1px solid rgba(255,255,255,0.08);border-bottom:1px solid rgba(255,255,255,0.08)">
       <div class="font-display font-extrabold text-[11px] uppercase tracking-wide mt-2 mb-1" style="color:${meta.accent}">📊 Key Statistics</div>
       ${statsHtml}
     </div>
 
-    <p class="text-[13px] leading-relaxed mb-3" style="color:rgba(255,255,255,0.7)">
-      The ocean absorbs <strong style="color:#fff">90% of excess heat</strong>
-      and <strong style="color:#fff">25% of CO₂</strong> from human activity.
-      Every degree of warming, every pH unit lost, every disrupted current
-      has cascading effects on billions of lives and millions of species.
-    </p>
-
-    <p class="text-[13px] leading-relaxed mb-3" style="color:rgba(255,255,255,0.7)">
-      Toggle <strong style="color:#fff">Compare</strong> in the top left to compare two years.
-      Drag the <span style="color:#f97316">orange handle</span> (earlier year)
-      and <span style="color:#38bdf8">blue handle</span> (later year) on the timeline.
-      Warm reds = hotter, cool blues = colder.
-    </p>
-
     <p class="text-center text-[11px] pt-2 leading-relaxed" style="color:rgba(255,255,255,0.35);border-top:1px solid rgba(255,255,255,0.08)">
-      NOAA · Copernicus Marine · NASA · SOCAT<br>
-      For educational &amp; awareness purposes only
+      ${(meta.sources || []).join(' · ')}
     </p>`
 }

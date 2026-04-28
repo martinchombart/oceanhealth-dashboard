@@ -3,6 +3,16 @@
 //  Set VITE_MAPBOX_TOKEN in .env.local (dev) and Vercel (prod).
 // ================================================================
 
+// Variable description text — edit the .txt files in /content/descriptions
+// to change the paragraph shown above "Key Statistics" in the info panel.
+import temperatureDesc from '../content/descriptions/temperature.txt?raw'
+import salinityDesc    from '../content/descriptions/salinity.txt?raw'
+import phDesc          from '../content/descriptions/ph.txt?raw'
+import chlorophyllDesc from '../content/descriptions/chlorophyll.txt?raw'
+import oxygenDesc      from '../content/descriptions/oxygen.txt?raw'
+import seaiceDesc      from '../content/descriptions/seaice.txt?raw'
+import sealevelDesc    from '../content/descriptions/sealevel.txt?raw'
+
 export const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN
 
 export const YEAR_MIN     = 1993   // GLORYS12 reanalysis starts 1993
@@ -29,7 +39,7 @@ export const MAP_CONFIG = {
 export const VARIABLES = {
 
   temperature: {
-    label:      'Sea Surface Temperature',
+    label:      'Sea Temperature',
     depthLevels: ['surface', '100m', '500m', '1000m'],
     unit:       '°C',
     filePrefix: 'sst',
@@ -59,11 +69,11 @@ export const VARIABLES = {
     gradient: 'linear-gradient(90deg,#001e6e,#0050be,#00aad2,#50d2b4,#ffd732,#ff8200,#d21414)',
     diffGrad: 'linear-gradient(90deg,#143cc8,#3c8cdc,#a0d2e6,#f5f5f5,#f0c878,#e66e14,#c81414)',
     accent: '#ff6b35',
-    importance: 'Sea Surface Temperature (SST) is the primary engine of global climate systems. It drives evaporation, storm intensity, ocean stratification, and marine ecosystem dynamics. A single degree of warming above seasonal averages can trigger mass coral bleaching events and permanently disrupt fish migration routes.',
+    importance: temperatureDesc.trim(),
     interpret:  'Warm tones (orange → red) indicate waters above the long-term 2024 baseline. Deep blues mark colder zones: Arctic, Antarctic and coastal upwellings. In Compare mode, red = the ocean warmed between the selected years; blue = it cooled.',
     sources:    ['NOAA ERSSTv5', 'Copernicus Marine (CMEMS)', 'HadSST4', 'Argo Float Network'],
     stats: [
-      { label: 'Global SST anomaly (2024)', value: '+1.44°C' },
+      { label: 'Global surface anomaly (2024)', value: '+1.44°C' },
       { label: 'Rate of warming',           value: '+0.13°C / decade' },
       { label: 'Warmest year on record',    value: '2024' },
       { label: 'Coral bleaching threshold', value: '+1°C above seasonal mean' },
@@ -71,7 +81,7 @@ export const VARIABLES = {
   },
 
   salinity: {
-    label:      'Sea Surface Salinity',
+    label:      'Sea Salinity',
     depthLevels: ['surface', '100m', '500m', '1000m'],
     unit:       'PSU',
     filePrefix: 'sal',
@@ -98,7 +108,7 @@ export const VARIABLES = {
     gradient: 'linear-gradient(90deg,#003ca0,#0078c8,#14c8a0,#00d264,#009650,#006432)',
     diffGrad: 'linear-gradient(90deg,#143cc8,#3c8cdc,#a0d2e6,#f5f5f5,#f0c878,#e66e14,#c81414)',
     accent: '#00c9a7',
-    importance: 'Salinity drives thermohaline circulation, the ocean "conveyor belt" that redistributes heat and oxygen globally. As polar ice melts, freshwater input is reducing salinity at high latitudes, threatening to slow or collapse this circulation with potentially catastrophic climate consequences for Europe and North America.',
+    importance: salinityDesc.trim(),
     interpret:  'Deep blues signal low-salinity regions (polar meltwater, heavy rainfall zones). Greens mark saltier subtropical areas where evaporation exceeds precipitation. The widening contrast between poles and subtropics directly reflects acceleration of the global water cycle.',
     sources:    ['World Ocean Atlas 2023 (NOAA)', 'NASA Aquarius/SAC-D', 'ESA SMOS', 'Argo BGC Floats'],
     stats: [
@@ -137,7 +147,7 @@ export const VARIABLES = {
     gradient: 'linear-gradient(90deg,#a01414,#d25a0f,#c8be28,#50b450,#3c78d2,#5037b4)',
     diffGrad: 'linear-gradient(90deg,#5037b4,#3c78d2,#a0d2e6,#f5f5f5,#f0c878,#e66e14,#c81414)',
     accent: '#a78bfa',
-    importance: 'Ocean acidification, driven by absorption of atmospheric CO₂, dissolves the calcium carbonate structures of corals, mollusks, and plankton that form the base of marine food webs. Since 1750, ocean pH has dropped by 0.1 units, a 26% increase in hydrogen ion concentration. This rate is faster than any natural change in 55 million years.',
+    importance: phDesc.trim(),
     interpret:  'Red/orange tones indicate more acidic water (lower pH = worse). Purple/blue marks relatively alkaline open-ocean water. Coastal upwelling zones and polar seas acidify fastest. In Compare mode, red = increasing acidity (deterioration); blue = relative improvement.',
     sources:    ['SOCAT v2023', 'GOA-ON Network', 'MBARI', 'Argo BGC Floats'],
     stats: [
@@ -176,7 +186,7 @@ export const VARIABLES = {
     gradient: 'linear-gradient(90deg,#0b1d3a,#0a3d62,#0e6655,#1e8449,#52be80,#f4d03f,#e74c3c)',
     diffGrad: 'linear-gradient(90deg,#143cc8,#3c8cdc,#a0d2e6,#f5f5f5,#b7e4a0,#52be80,#1e6020)',
     accent: '#52be80',
-    importance: 'Chlorophyll-a concentration is the primary indicator of phytoplankton abundance, the invisible foundation of marine food webs and a key driver of the biological carbon pump. These microscopic organisms produce half of the world\'s oxygen and absorb vast amounts of CO₂. Shifts in their distribution signal changes in ocean health, nutrient availability, and temperature stratification.',
+    importance: chlorophyllDesc.trim(),
     interpret:  'Dark blues indicate low-productivity open-ocean gyres (biological deserts). Greens and yellows mark nutrient-rich coastal upwellings, river plumes, and polar blooms. Reds signal very high concentrations, sometimes associated with harmful algal blooms. In Compare mode, green = increasing productivity; blue = decline.',
     sources:    ['Copernicus Marine (CMEMS)', 'NASA MODIS-Aqua', 'ESA OC-CCI', 'PISCES Biogeochemical Model'],
     stats: [
@@ -216,7 +226,7 @@ export const VARIABLES = {
     gradient: 'linear-gradient(90deg,#7f1d1d,#c0392b,#f39c12,#f5f5f5,#5dade2,#1a5276,#0d2137)',
     diffGrad: 'linear-gradient(90deg,#c81414,#e66e14,#f0c878,#f5f5f5,#a0d2e6,#3c8cdc,#143cc8)',
     accent: '#5dade2',
-    importance: 'Ocean deoxygenation is one of the least-publicized consequences of climate change. As the ocean warms, it holds less dissolved oxygen, and stratification reduces mixing from the surface. Oxygen Minimum Zones (OMZs) are expanding, threatening fish habitats, accelerating denitrification, and releasing additional greenhouse gases. Over 700 coastal dead zones now exist worldwide.',
+    importance: oxygenDesc.trim(),
     interpret:  'Red tones mark low-oxygen zones: hypoxic or anoxic areas hostile to most marine life. Blues indicate well-oxygenated polar and upwelling waters. In Compare mode, blue = oxygen increase (improvement); red = depletion (deterioration). Coastal and tropical regions typically show the steepest declines.',
     sources:    ['Copernicus Marine (CMEMS)', 'World Ocean Atlas 2023 (NOAA)', 'Argo BGC Floats', 'PISCES Model'],
     stats: [
@@ -255,7 +265,7 @@ export const VARIABLES = {
     gradient: 'linear-gradient(90deg,#0a0a2a,#1a3a6e,#2e86c1,#85c1e9,#d6eaf8,#eaf4fb,#ffffff)',
     diffGrad: 'linear-gradient(90deg,#c81414,#e66e14,#f0c878,#f5f5f5,#a0d2e6,#3c8cdc,#143cc8)',
     accent: '#85c1e9',
-    importance: 'Arctic sea ice has lost over 75% of its summer volume since the 1980s. This loss accelerates warming through the albedo feedback loop: white ice reflects 80–90% of sunlight, while dark open ocean absorbs 94%. Sea ice also regulates weather patterns across the Northern Hemisphere, and its decline is disrupting jet streams and enabling more extreme weather events.',
+    importance: seaiceDesc.trim(),
     interpret:  'Dark blues show thin or absent ice. White tones represent thick multiyear ice. The Arctic shows dramatic thinning trends; Antarctic seasonal ice is more variable. In Compare mode, blue = ice gain; red = ice loss. Polar regions with no data appear transparent where ice is absent.',
     sources:    ['Copernicus Marine (CMEMS GLORYS12)', 'NSIDC', 'ESA CryoSat-2', 'PIOMAS Model'],
     stats: [
@@ -294,7 +304,7 @@ export const VARIABLES = {
     gradient: 'linear-gradient(90deg,#1a0050,#2e4fa3,#74b9ff,#f5f5f5,#fdcb6e,#e17055,#6c0000)',
     diffGrad: 'linear-gradient(90deg,#143cc8,#3c8cdc,#a0d2e6,#f5f5f5,#f0c878,#e66e14,#c81414)',
     accent: '#74b9ff',
-    importance: 'Global mean sea level has risen ~20 cm since 1900, and the rate is accelerating, driven by thermal expansion of warming oceans (40%) and melting glaciers and ice sheets (60%). A 1-meter rise would threaten hundreds of millions of coastal inhabitants. The SSH map also reveals ocean circulation patterns: gyres, eddies, and currents leave distinct fingerprints on the sea surface.',
+    importance: sealevelDesc.trim(),
     interpret:  'Purple/blue tones mark depressed sea surface areas (cold dense water, downwelling zones). Orange/red indicates elevated areas: warm water expansion, convergence zones or regions near melting ice. The Mediterranean, tropics, and western Pacific typically sit higher. In Compare mode, red = rising sea level; blue = relative drop.',
     sources:    ['Copernicus Marine (CMEMS GLORYS12)', 'NASA/CNES TOPEX', 'Jason-1/2/3', 'Sentinel-6 Altimetry'],
     stats: [

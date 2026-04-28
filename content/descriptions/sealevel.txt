@@ -1,0 +1,5 @@
+Global sea level has risen ~20 cm since 1900, and the rate is accelerating, driven by thermal expansion of warming oceans (40%) and melting ice sheets and glaciers (60%). A 1-meter rise would threaten hundreds of millions of coastal inhabitants.
+
+But the ocean is not flat. Its surface has bumps and dips of up to ±1.5 m, the imprint of ocean circulation. Warm water sits higher; cold, dense water lower. On a rotating Earth, water flows along these slopes rather than down them, so every major current, from the Gulf Stream to small eddies, leaves a fingerprint on SSH.
+
+When these patterns shift, the consequences reach beyond the coast. Tropical cyclones intensify over warm-water bulges: Hurricanes Katrina and Ian both deepened over the Gulf of Mexico. A weakening of Atlantic circulation would reshape European winters. Mapping sea level is mapping how the ocean moves, and how that motion is changing.

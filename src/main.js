@@ -331,7 +331,7 @@ function _bindProjectionToggle() {
     })
     if (!isGlobe && isGlobeRotating()) toggleGlobeRotation()
     setProjection(isGlobe ? 'globe' : 'mercator')
-    if (playBtn) playBtn.style.display = isGlobe ? '' : 'none'
+    if (playBtn) playBtn.style.visibility = isGlobe ? '' : 'hidden'
   }
 
   toggles.forEach(({ btn }) => {

@@ -1,0 +1,5 @@
+Ocean pH measures how acidic seawater has become as the ocean absorbs roughly a quarter of all CO₂ emitted by human activity. Once dissolved, CO₂ reacts with water to form carbonic acid, releasing hydrogen ions that lower pH.
+
+The shift looks small in numbers: from 8.18 in pre-industrial times to 8.08 today. But pH is logarithmic, that 0.1-unit drop represents a 26% increase in acidity. The current rate is faster than anything the ocean has experienced in the past 55 million years.
+
+The most vulnerable species are those that build shells or skeletons from calcium carbonate: corals, oysters, mussels, and tiny floating snails called pteropods that sit at the base of many polar food webs. As acidity rises, these structures dissolve faster than they can grow. Coastal upwelling zones and polar seas, where cold water absorbs more CO₂, acidify the fastest.
